@@ -1,9 +1,7 @@
-import type {Lyric} from "../utils/karaoke.ts";
+import type {Lyric, LyricLine} from "../utils/karaoke.ts";
 import {KaraokeLine} from "./KaraokeLine.tsx";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useKaraoke} from "../hooks/useKaraoke.ts";
-import {Simulate} from "react-dom/test-utils";
-import reset = Simulate.reset;
 
 type KaraokeProps = {
     lyric: Lyric;
@@ -20,7 +18,31 @@ function formatTime(milliseconds: number): string {
     return `${formattedMinutes}:${formattedSeconds}`;
 }
 
-export const Karaoke = ({ lyric }: KaraokeProps) => {
+type KaraokeLinesProps = {
+    currentLine: LyricLine,
+    previousLines: LyricLine[];
+}
+const maxOpacityLines = 10; // Number of lines with maximum opacity
+
+export const KaraokeLines = ({currentLine, previousLines}: KaraokeLinesProps) => {
+    const linesToFade = Math.min(previousLines.length, maxOpacityLines);
+
+    return (<div className="absolute left-0 right-0 bottom-10 text-center w-full">
+        <ol className="mb-4">
+            {previousLines.map((line, index) => {
+                const opacity = index >= previousLines.length - linesToFade ? (linesToFade - (index - (previousLines.length - linesToFade))) / linesToFade : 0;
+
+                const flippedOpacity = opacity === 0 ? 0 : 1 - opacity;
+                return <li key={index} style={{opacity: flippedOpacity}}>{line.text}</li>
+            })}
+        </ol>
+        <KaraokeLine>
+            {currentLine.text}
+        </KaraokeLine>
+    </div>)
+}
+
+export const Karaoke = ({lyric}: KaraokeProps) => {
     const {
         play,
         stop,
@@ -34,26 +56,15 @@ export const Karaoke = ({ lyric }: KaraokeProps) => {
     useEffect(() => {
         console.log('Lyric', lyric);
         play();
-    }, [lyric.id]);
+    }, [lyric]);
 
     return (
         <div>
             <h2>{songInfo.title}</h2>
             <p>{songInfo.artist}</p>
             <p>{songInfo.album}</p>
-            <button onClick={play}>Play</button>
-            <button onClick={stop}>Stop</button>
-            {state === 'playing' &&  currentLine && (
-                <div className="absolute left-0 right-0 bottom-10 text-center w-full">
-                    <ol>
-                        {previousLines.map((line, index) => (
-                            <li key={index} style={{opacity: .5}}>{line.text}</li>
-                        ))}
-                    </ol>
-                    <KaraokeLine>
-                        {currentLine.text}
-                    </KaraokeLine>
-                </div>
+            {state === 'playing' && currentLine && (
+                <KaraokeLines currentLine={currentLine} previousLines={previousLines} />
             )}
             <p>Progress: {formatTime(elapsedTime)} ({elapsedTime})</p>
         </div>

@@ -12,7 +12,7 @@ type UseKaraokeResult = {
 };
 
 type State = 'stopped' | 'playing';
-const speed = 10
+const speed = 1
 
 export const useKaraoke = (lyric: Lyric): UseKaraokeResult => {
     const [state, setState] = useState<State>('stopped');

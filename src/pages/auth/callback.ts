@@ -17,7 +17,7 @@ export async function GET({ request, redirect }) {
     },
     body: new URLSearchParams({
       code: code,
-      redirect_uri: "http://localhost:4321/auth/callback",
+      redirect_uri: "https://kersteoke.vercel.app/auth/callback",
       grant_type: 'authorization_code'
     }),
   };

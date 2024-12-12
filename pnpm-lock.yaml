@@ -44,6 +44,9 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.7.2
+      universal-cookie:
+        specifier: ^7.2.2
+        version: 7.2.2
 
 packages:
 
@@ -2204,6 +2207,9 @@ packages:
 
   unist-util-visit@5.0.0:
     resolution: {integrity: sha512-MR04uvD+07cwl/yhVuVWAtw+3GOR/knlL55Nd/wAdblk27GCVt3lqpTivy/tkJcZoNPzTwS1Y+KMojlLDhoTzg==}
+
+  universal-cookie@7.2.2:
+    resolution: {integrity: sha512-fMiOcS3TmzP2x5QV26pIH3mvhexLIT0HmPa3V7Q7knRfT9HG6kTwq02HZGLPw0sAOXrAmotElGRvTLCMbJsvxQ==}
 
   update-browserslist-db@1.1.1:
     resolution: {integrity: sha512-R8UzCaa9Az+38REPiJ1tXlImTJXlVfgHZsglwBD/k6nj76ctsH1E3q4doGrukiLQd3sGQYu56r5+lo5r94l29A==}
@@ -4998,6 +5004,11 @@ snapshots:
       '@types/unist': 3.0.3
       unist-util-is: 6.0.0
       unist-util-visit-parents: 6.0.1
+
+  universal-cookie@7.2.2:
+    dependencies:
+      '@types/cookie': 0.6.0
+      cookie: 0.7.2
 
   update-browserslist-db@1.1.1(browserslist@4.24.2):
     dependencies:

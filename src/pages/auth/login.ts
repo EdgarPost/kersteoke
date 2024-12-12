@@ -1,4 +1,6 @@
-var generateRandomString = function (length) {
+import type { APIRoute } from "astro";
+
+const generateRandomString = function(length: number) {
   var text = '';
   var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -8,18 +10,16 @@ var generateRandomString = function (length) {
   return text;
 };
 
-export async function GET({ params, redirect }) {
-  var scope = "streaming \
-               user-read-email \
-               user-read-private"
+const scope = "streaming user-read-email user-read-private"
 
-  var state = generateRandomString(16);
+export const GET: APIRoute = async ({ redirect }) => {
+  const state = generateRandomString(16);
 
-  var auth_query_parameters = new URLSearchParams({
+  const auth_query_parameters = new URLSearchParams({
     response_type: "code",
     client_id: import.meta.env.SPOTIFY_CLIENT_ID,
     scope: scope,
-    redirect_uri: "https://kersteoke.vercel.app/auth/callback",
+    redirect_uri: `${import.meta.env.APP_BASE_URL}/auth/callback`,
     state: state
   });
 

@@ -50,7 +50,6 @@ export const useSpotifyPlayer = ({ token }: UseSpotifyPlayerParams) => {
     document.body.appendChild(script);
 
     window.onSpotifyWebPlaybackSDKReady = () => {
-
       const player = new window.Spotify.Player({
         name: 'Kersteoke',
         getOAuthToken: cb => { cb(token); },
@@ -58,6 +57,8 @@ export const useSpotifyPlayer = ({ token }: UseSpotifyPlayerParams) => {
       });
 
       setPlayer(player);
+
+      console.log(player);
 
       player.addListener('ready', ({ device_id }) => {
         console.log('Ready with Device ID', device_id);

@@ -1,44 +1,46 @@
-import { setToken, TokenStorage } from "../../store/auth.ts";
+import type { APIRoute } from "astro";
+import { SPOTIFY_TOKEN_COOKIE_NAME, type TokenStorage } from "../../store/auth.ts";
 
-export const prerender = false;
 
 const SPOTIFY_CLIENT_ID = import.meta.env.SPOTIFY_CLIENT_ID;
 const SPOTIFY_CLIENT_SECRET = import.meta.env.SPOTIFY_CLIENT_SECRET;
 
-console.log({ SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET })
-
-export async function GET({ request, redirect }) {
+export const GET: APIRoute = async ({ request, cookies, redirect }) => {
   const code = new URL(request.url).searchParams.get('code');
-  const authOptions: RequestIn = {
+
+  if (!code) {
+    throw new Error('Code required');
+  }
+
+  const searchParams = new URLSearchParams();
+  searchParams.set('code', code);
+  searchParams.set('redirect_uri', `${import.meta.env.APP_BASE_URL}/auth/callback`);
+  searchParams.set('grant_type', 'authorization_code')
+
+  const authOptions: RequestInit = {
     method: 'POST',
     headers: {
-      'Authorization': 'Basic ' + (new Buffer.from(SPOTIFY_CLIENT_ID + ':' + SPOTIFY_CLIENT_SECRET).toString('base64')),
+      'Authorization': 'Basic ' + (Buffer.from(SPOTIFY_CLIENT_ID + ':' + SPOTIFY_CLIENT_SECRET).toString('base64')),
       'Content-Type': 'application/x-www-form-urlencoded'
     },
-    body: new URLSearchParams({
-      code: code,
-      redirect_uri: "https://kersteoke.vercel.app/auth/callback",
-      grant_type: 'authorization_code'
-    }),
+    body: searchParams
   };
 
   return fetch('https://accounts.spotify.com/api/token', authOptions)
     .then(response => response.json())
     .then(body => {
-      console.log(body);
       if (body.access_token) {
-        setToken(body as TokenStorage);
+        cookies.set(SPOTIFY_TOKEN_COOKIE_NAME, body as TokenStorage, {
+          path: '/'
+        });
 
         return redirect('/', 302);
-      } else {
-
-        return new Response(
-          'Error retrieving access token')
       }
+
+      return new Response('Error retrieving access token')
     })
     .catch(error => {
-      console.error('Error:', error);
-      return new Response(
-        'Error retrieving access token')
+      console.log({ error })
+      return new Response('Error retrieving access token')
     });
 }

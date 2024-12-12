@@ -1,23 +1,24 @@
-import {getToken} from "../../store/auth.ts";
+import type { APIRoute } from "astro";
+import { getToken } from "../../store/auth.ts";
 
-export async function GET() {
-    const token = getToken();
+export const GET: APIRoute = async () => {
+  const token = getToken();
 
-    if(!token) {
-        return new Response(
-            JSON.stringify({
-                error: "No token found"
-            })
-        )
-    }
-
-    const { access_token, expires_in, expiration_date } = token;
-
+  if (!token) {
     return new Response(
-        JSON.stringify({
-            token: access_token,
-            expires_in,
-            expiration_date
-        })
+      JSON.stringify({
+        error: "No token found"
+      })
     )
+  }
+
+  const { access_token, expires_in, expiration_date } = token;
+
+  return new Response(
+    JSON.stringify({
+      token: access_token,
+      expires_in,
+      expiration_date
+    })
+  )
 }

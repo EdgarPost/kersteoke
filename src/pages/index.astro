@@ -3,12 +3,10 @@ import path from 'path';
 import fs from 'fs/promises';
 import Layout from '../layouts/Layout.astro';
 import { KaraokeContainer } from '../components/KaraokeContainer';
-import { getToken} from "../store/auth";
+import { SPOTIFY_TOKEN_COOKIE_NAME} from "../store/auth";
 
-const token = await getToken()
-
-if(!token || !token?.access_token || Date.now() >= token?.expiration_date) {
-	return Astro.redirect('/auth/login');
+if (!Astro.cookies.has(SPOTIFY_TOKEN_COOKIE_NAME)) {
+	return Astro.redirect('/login');
 }
 ---
 

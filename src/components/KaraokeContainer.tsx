@@ -16,7 +16,7 @@ export const KaraokeContainer = () => {
   const hasLyric = lyric !== null;
   const isConnected = player !== null;
   const hasTrack = currentTrack !== null;
-  const isReady = hasLyric && isConnected && hasTrack;
+  const isReady = isConnected && hasTrack;
 
   const start = async () => {
     setState('playing');
@@ -43,34 +43,39 @@ export const KaraokeContainer = () => {
 
   return (
     <div>
-      <h1>Kersteoke</h1>
       {state === 'idle' && <>
+        <p className="mb-5 text-center">Hier kun je wat dingetjes testen. Je moet af en toe een beetje op Play drukken hier en in de Spotify app. Je komt er wel uit. Soms doet ie een beetje gek.</p>
+        <p className="mb-5 text-center">Er wordt niets opgeslagen op de server, dus ik kan niet per ongeluk zien welk liedje je hebt uitgekozen.</p>
+        <p className="mb-5 text-center">{isConnected ? <>Je kunt nu de speaker "{player?._options.name}" selecteren in Spotify, en een liedje afspelen.</> : <>Nog geen connectie met Spotify..</>}</p>
         <div>
-          LRC: {hasLyric ? `${lyric?.title} by ${lyric?.artist}` : "None"}
+          Lyric (LRC): {hasLyric ? `${lyric?.title} by ${lyric?.artist}` : "Geen"}
         </div>
         <div>
-          Spotify: {hasTrack ? `${currentTrack?.name} by ${currentTrack?.artists[0].name}` : "None"}
+          Huidige track: {hasTrack ? `${currentTrack?.name} by ${currentTrack?.artists[0].name}` : "Geen"}
         </div>
 
-        {isReady && <div>
-          <button onClick={start}>Play</button>
-        </div>}
-
-        <div className="absolute bottom-10">
-          <LyricUploader onSuccess={setLyric} onError={console.log} />
-          <br />
-          Spotify Connect: {isConnected ? <>Available in Spotify as {player?._options.name}</> : <>Waiting for
-            Spotify connection...</>}
-          <br />
-          <a href='/auth/logout'>Logout</a>
+        <div>
+          {hasTrack &&
+            <button className="border-2 border-solid px-3 border-white" onClick={start}>SPEEL LIEDJE AF</button>}
         </div>
+
+        <br />
+        <hr />
+        <br />
+
+        <p className="mb-5 text-center">Hier kun je een lyric (*.lrc) bestand selecteren:</p>
+
+        <LyricUploader onSuccess={setLyric} onError={console.log} />
+        <br />
+        <br />
+        <a className="border-2 border-solid px-3 border-white" href='/auth/logout'>UITLOGGEN</a>
       </>}
 
       {state === 'playing' && <>
-        <Karaoke lyric={lyric!} track={currentTrack!} />
+        {hasLyric && <Karaoke lyric={lyric!} track={currentTrack!} />}
 
-        <div className="absolute bottom-10">
-          <button onClick={stop}>Stop</button>
+        <div className="">
+          <button className="border-2 border-solid px-3 border-white" onClick={stop}>STOP HET LIEDJE!!1</button>
         </div>
       </>}
     </div>

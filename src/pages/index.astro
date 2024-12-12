@@ -10,20 +10,9 @@ if (!Astro.cookies.has(SPOTIFY_TOKEN_COOKIE_NAME)) {
 }
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="Offerfeest 2024">
 	<main>
 		<KaraokeContainer client:visible />
 	</main>
 </Layout>
 
-<style>
-	main {
-		margin: auto;
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
-		color: white;
-		font-size: 20px;
-		line-height: 1.6;
-	}
-</style>

@@ -3,19 +3,12 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Welcome to Astro.">
-  <main>
-    <a href="/auth/login">Login</a></main>
+<Layout title="Inloggen">
+  <main class="text-center">
+    <p class="mb-5">Welkom bij het Offerfeest 2024. Eens kijken of dit een beetje werkt.</p>
+    <p class="mb-5">Eerst moet je even inloggen op Spotify en toegang geven via deze website met je laptop of iPad.</p>
+    <p class="mb-5">Vervolgens kun je vanaf je telefoon (of gewoon de Spotify app op je grotere device) een liedje afspelen op dit device.</p>
+    <p class="mb-5">Het is allemaal zo buggy als de pest, dus verwacht vooral dat er dingen stuk gaan.</p>
+    <a class="border-2 border-solid px-3 border-white" href="/auth/login">Inloggen</a></main>
 </Layout>
 
-<style>
-	main {
-		margin: auto;
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
-		color: white;
-		font-size: 20px;
-		line-height: 1.6;
-	}
-</style>

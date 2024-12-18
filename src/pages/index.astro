@@ -3,6 +3,7 @@ import path from 'path';
 import fs from 'fs/promises';
 import Layout from '../layouts/Layout.astro';
 import { KaraokeContainer } from '../components/KaraokeContainer';
+import { Snowfall } from '../components/Snowfall';
 import { SPOTIFY_TOKEN_COOKIE_NAME} from "../store/auth";
 
 if (!Astro.cookies.has(SPOTIFY_TOKEN_COOKIE_NAME)) {
@@ -13,6 +14,7 @@ if (!Astro.cookies.has(SPOTIFY_TOKEN_COOKIE_NAME)) {
 <Layout title="Offerfeest 2024">
 	<main>
 		<KaraokeContainer client:visible />
+    <Snowfall />
 	</main>
 </Layout>
 

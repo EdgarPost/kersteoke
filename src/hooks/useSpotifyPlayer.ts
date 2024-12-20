@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 
 type UseSpotifyPlayerParams = {
   token?: string;
-}
+};
 
 type Player = {
-  seek: (position: number) => Promise<void>
-  resume: () => Promise<void>
-}
+  seek: (position: number) => Promise<void>;
+  resume: () => Promise<void>;
+};
 
 type CurrentTrack = {
   uri: string;
@@ -27,12 +27,12 @@ type CurrentTrack = {
     uri: string;
     name: string;
   }[];
-}
+};
 
 type UseSpotifyPlayerResult = {
   player: Player;
   currentTrack: CurrentTrack;
-}
+};
 
 export const useSpotifyPlayer = ({ token }: UseSpotifyPlayerParams) => {
   const [player, setPlayer] = useState();
@@ -51,31 +51,33 @@ export const useSpotifyPlayer = ({ token }: UseSpotifyPlayerParams) => {
 
     window.onSpotifyWebPlaybackSDKReady = () => {
       const player = new window.Spotify.Player({
-        name: 'Offerfeest 2024',
-        getOAuthToken: cb => { cb(token); },
-        volume: 1
+        name: "Offerfeest 2024",
+        getOAuthToken: (cb) => {
+          cb(token);
+        },
+        volume: 1,
       });
 
       setPlayer(player);
 
       console.log(player);
 
-      player.addListener('ready', ({ device_id }) => {
-        console.log('Ready with Device ID', device_id);
+      player.addListener("ready", ({ device_id }) => {
+        console.log("Ready with Device ID", device_id);
       });
 
-      player.addListener('not_ready', ({ device_id }) => {
-        console.log('Device ID has gone offline', device_id);
+      player.addListener("not_ready", ({ device_id }) => {
+        console.log("Device ID has gone offline", device_id);
       });
 
-      player.addListener('player_state_changed', (state => {
+      player.addListener("player_state_changed", (state) => {
         if (!state) {
           setCurrentTrack(null);
           return;
         }
 
         setCurrentTrack(state.track_window.current_track);
-      }));
+      });
 
       player.connect();
     };
@@ -89,4 +91,4 @@ export const useSpotifyPlayer = ({ token }: UseSpotifyPlayerParams) => {
   }, [currentTrack?.id]);
 
   return { player, currentTrack };
-}
+};

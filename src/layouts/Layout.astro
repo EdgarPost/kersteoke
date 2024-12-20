@@ -1,9 +1,15 @@
 ---
+import { getImage } from "astro:assets";
+import jesusMan from "/public/jesusman.jpg"
+
 interface Props {
 	title: string;
 }
 
 const { title } = Astro.props;
+
+
+const backgroundImage = await getImage({src: jesusMan, format: 'jpg'})
 ---
 
 <!doctype html>
@@ -18,7 +24,7 @@ const { title } = Astro.props;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 	</head>
-	<body>
+	<body style={`background-image: url(${backgroundImage.src});`}>
     <h1 class="text-8xl text-center mb-10">Offerfeest 2024</h1>
 		<slot />
 	</body>
@@ -27,7 +33,6 @@ const { title } = Astro.props;
 <style is:global>
   body {
     background-color: #000;
-    background-image: url(jesusman.jpg);
     background-size: cover;
 		margin: auto;
 		padding: 1rem;

@@ -4,13 +4,14 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
+    "start": "node ./dist/server/entry.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/check": "^0.3.2",
+    "@astrojs/node": "^9.5.1",
     "@astrojs/react": "^3.0.7",
     "@astrojs/tailwind": "^5.0.3",
     "@astrojs/vercel": "^8.0.0",

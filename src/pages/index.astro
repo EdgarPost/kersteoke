@@ -1,6 +1,4 @@
 ---
-import path from 'path';
-import fs from 'fs/promises';
 import Layout from '../layouts/Layout.astro';
 import { KaraokeContainer } from '../components/KaraokeContainer';
 import { Snowfall } from '../components/Snowfall';
@@ -11,7 +9,7 @@ if (!Astro.cookies.has(SPOTIFY_TOKEN_COOKIE_NAME)) {
 }
 ---
 
-<Layout title="Offerfeest 2024">
+<Layout title="Offerfeest 2025">
 	<main>
 		<KaraokeContainer client:visible />
     <Snowfall />

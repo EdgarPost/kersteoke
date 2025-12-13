@@ -51,7 +51,7 @@ export const useSpotifyPlayer = ({ token }: UseSpotifyPlayerParams) => {
 
     window.onSpotifyWebPlaybackSDKReady = () => {
       const player = new window.Spotify.Player({
-        name: "Offerfeest 2024",
+        name: "Offerfeest 2025",
         getOAuthToken: (cb) => {
           cb(token);
         },

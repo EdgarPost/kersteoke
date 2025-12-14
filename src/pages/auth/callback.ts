@@ -1,9 +1,6 @@
 import type { APIRoute } from "astro";
+import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, APP_BASE_URL } from "astro:env/server";
 import { SPOTIFY_TOKEN_COOKIE_NAME, type TokenStorage } from "../../store/auth.ts";
-
-
-const SPOTIFY_CLIENT_ID = import.meta.env.SPOTIFY_CLIENT_ID;
-const SPOTIFY_CLIENT_SECRET = import.meta.env.SPOTIFY_CLIENT_SECRET;
 
 export const GET: APIRoute = async ({ request, cookies, redirect }) => {
   const code = new URL(request.url).searchParams.get('code');
@@ -14,7 +11,7 @@ export const GET: APIRoute = async ({ request, cookies, redirect }) => {
 
   const searchParams = new URLSearchParams();
   searchParams.set('code', code);
-  searchParams.set('redirect_uri', `${import.meta.env.APP_BASE_URL}/auth/callback`);
+  searchParams.set('redirect_uri', `${APP_BASE_URL}/auth/callback`);
   searchParams.set('grant_type', 'authorization_code')
 
   const authOptions: RequestInit = {

@@ -4,8 +4,6 @@ import { KaraokeContainer } from '../components/KaraokeContainer';
 import { Snowfall } from '../components/Snowfall';
 import { SPOTIFY_TOKEN_COOKIE_NAME} from "../store/auth";
 
-console.log(JSON.stringify(import.meta.env, null, 2));
-
 if (!Astro.cookies.has(SPOTIFY_TOKEN_COOKIE_NAME)) {
 	return Astro.redirect('/login');
 }

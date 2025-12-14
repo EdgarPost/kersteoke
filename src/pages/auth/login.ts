@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { SPOTIFY_CLIENT_ID, APP_BASE_URL } from "astro:env/server";
 
 const generateRandomString = function(length: number) {
   var text = '';
@@ -17,9 +18,9 @@ export const GET: APIRoute = async ({ redirect }) => {
 
   const auth_query_parameters = new URLSearchParams({
     response_type: "code",
-    client_id: import.meta.env.SPOTIFY_CLIENT_ID,
+    client_id: SPOTIFY_CLIENT_ID,
     scope: scope,
-    redirect_uri: `${import.meta.env.APP_BASE_URL}/auth/callback`,
+    redirect_uri: `${APP_BASE_URL}/auth/callback`,
     state: state
   });
 

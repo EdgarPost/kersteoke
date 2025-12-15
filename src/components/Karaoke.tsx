@@ -5,6 +5,9 @@ import { useKaraoke } from "../hooks/useKaraoke.ts";
 
 type KaraokeProps = {
   lyric: Lyric;
+  track: {
+    duration_ms: number;
+  };
 };
 
 function formatTime(milliseconds: number): string {
@@ -90,9 +93,9 @@ export const Karaoke = ({ lyric, track }: KaraokeProps) => {
       {state === "playing" && currentLine && (
         <KaraokeLines currentLine={currentLine} previousLines={previousLines} />
       )}
-      <div className="fixed bottom-0 left-0 right-0 h-3 blur-sm">
+      <div className="fixed bottom-0 left-0 right-0 h-3 bg-black/50">
         <div
-          className="h-full bg-white w-96"
+          className="h-full bg-christmas-gold"
           style={{ width: `${percentage}%` }}
         ></div>
       </div>

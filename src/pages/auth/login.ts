@@ -11,7 +11,7 @@ const generateRandomString = function(length: number) {
   return text;
 };
 
-const scope = "streaming user-read-email user-read-private"
+const scope = "streaming user-read-email user-read-private user-modify-playback-state"
 
 export const GET: APIRoute = async ({ redirect }) => {
   const state = generateRandomString(16);

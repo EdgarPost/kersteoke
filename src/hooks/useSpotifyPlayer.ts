@@ -7,6 +7,8 @@ type UseSpotifyPlayerParams = {
 type Player = {
   seek: (position: number) => Promise<void>;
   resume: () => Promise<void>;
+  pause: () => Promise<void>;
+  _options: { name: string };
 };
 
 type CurrentTrack = {
@@ -30,13 +32,17 @@ type CurrentTrack = {
 };
 
 type UseSpotifyPlayerResult = {
-  player: Player;
-  currentTrack: CurrentTrack;
+  player: Player | null;
+  deviceId: string | null;
+  currentTrack: CurrentTrack | null;
+  isReady: boolean;
 };
 
-export const useSpotifyPlayer = ({ token }: UseSpotifyPlayerParams) => {
-  const [player, setPlayer] = useState();
-  const [currentTrack, setCurrentTrack] = useState(null);
+export const useSpotifyPlayer = ({ token }: UseSpotifyPlayerParams): UseSpotifyPlayerResult => {
+  const [player, setPlayer] = useState<Player | null>(null);
+  const [deviceId, setDeviceId] = useState<string | null>(null);
+  const [currentTrack, setCurrentTrack] = useState<CurrentTrack | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     if (!token) {
@@ -64,10 +70,13 @@ export const useSpotifyPlayer = ({ token }: UseSpotifyPlayerParams) => {
 
       player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", device_id);
+        setDeviceId(device_id);
+        setIsReady(true);
       });
 
       player.addListener("not_ready", ({ device_id }) => {
         console.log("Device ID has gone offline", device_id);
+        setIsReady(false);
       });
 
       player.addListener("player_state_changed", (state) => {
@@ -90,5 +99,5 @@ export const useSpotifyPlayer = ({ token }: UseSpotifyPlayerParams) => {
     }
   }, [currentTrack?.id]);
 
-  return { player, currentTrack };
+  return { player, deviceId, currentTrack, isReady };
 };

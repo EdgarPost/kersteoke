@@ -10,6 +10,12 @@ export default defineConfig({
   adapter: node({
     mode: "standalone",
   }),
+  vite: {
+    esbuild: {
+      jsx: "automatic",
+      jsxDev: false,
+    },
+  },
   env: {
     schema: {
       SPOTIFY_CLIENT_ID: envField.string({ context: "server", access: "secret" }),

@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { TestKaraoke } from '../components/TestKaraoke';
+import { Snowfall } from '../components/Snowfall';
+---
+
+<Layout title="Karaoke Test">
+	<main>
+		<TestKaraoke client:load />
+		<Snowfall />
+	</main>
+</Layout>

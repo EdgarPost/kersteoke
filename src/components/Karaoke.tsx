@@ -71,7 +71,7 @@ export const KaraokeLines = ({
 
     return (
       <div
-        className="fixed inset-0 flex items-center justify-center pb-24 overflow-hidden transition-opacity duration-1000"
+        className="fixed inset-0 flex items-center justify-center pb-24 overflow-hidden transition-opacity duration-1000 z-10"
         style={{ opacity: containerOpacity }}
       >
         <div
@@ -109,7 +109,7 @@ export const KaraokeLines = ({
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center pb-24 overflow-hidden"
+      className="fixed inset-0 flex items-center justify-center pb-24 overflow-hidden z-10"
       style={{ opacity: containerOpacity }}
     >
       <div
